@@ -1,15 +1,20 @@
-import mongoose from 'mongoose';
+import mongoose,  { ConnectOptions } from 'mongoose';
+import config from '../config/index.js'
 
 export class Database {
   private dbUri:string;
+  private connectionOptions: ConnectOptions;
 
   constructor() {
-    this.dbUri= process.env.DATABASE_URL;
+    this.dbUri= config.database.dbUri;
+    this.connectionOptions = {
+      dbName: config.database.dbName,
+    };
   }
 
   public async connect(): Promise<void> {
     try {
-      await mongoose.connect(this.dbUri);
+      await mongoose.connect(this.dbUri, this.connectionOptions);
       console.log('Connected to MongoDB');
     } catch (error) {
       console.error('Failed to connect to MongoDB:', error);

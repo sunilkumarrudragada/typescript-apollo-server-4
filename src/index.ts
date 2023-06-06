@@ -1,5 +1,6 @@
 // npm install @apollo/server express graphql cors body-parser
 import { ApolloServer } from '@apollo/server';
+import 'dotenv/config';
 import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import express from 'express';
