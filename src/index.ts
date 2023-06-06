@@ -6,6 +6,10 @@ import express from 'express';
 import http from 'http';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import { Database } from './models/index.js';
+
+const dbConnection = new Database();
+
 // import { typeDefs, resolvers } from './schema';
 
 // A schema is a collection of type definitions (hence "typeDefs")
@@ -63,6 +67,8 @@ const server = new ApolloServer<MyContext>({
   resolvers,
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
+
+await dbConnection.connect();
 // Ensure we wait for our server to start
 await server.start();
 
