@@ -7,9 +7,9 @@ import express from 'express';
 import http from 'http';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import { Database } from './models/index.js';
+import dbConnection from './models/index.js';
 
-const dbConnection = new Database();
+await dbConnection.connect();
 
 // import { typeDefs, resolvers } from './schema';
 
@@ -69,7 +69,6 @@ const server = new ApolloServer<MyContext>({
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
 
-await dbConnection.connect();
 // Ensure we wait for our server to start
 await server.start();
 

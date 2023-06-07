@@ -1,7 +1,7 @@
 import mongoose,  { ConnectOptions } from 'mongoose';
 import config from '../config/index.js'
 
-export class Database {
+class Database {
   private dbUri:string;
   private connectionOptions: ConnectOptions;
 
@@ -30,3 +30,34 @@ export class Database {
     }
   }
 }
+
+const dbConnection = new Database();
+
+/** ********************mongo events************************* */
+mongoose.connection.on('connected', () => {
+  console.log('Mongoose connected');
+  // setTimeout(() => {
+  //   console.log('Disconnecting after 5000ms');
+  //   dbConnection.disconnect().then().catch();
+  // }, 5000);
+});
+
+mongoose.connection.on('disconnected', () => {
+  console.log('Mongoose disconnected');
+  setTimeout(() => {
+    console.log('Reconnecting after 2000ms');
+    dbConnection.connect().then().catch();
+  }, 5000);
+});
+
+mongoose.connection.on('error', (err) => {
+  console.error(`Mongoose connection error: ${err}`);
+});
+
+mongoose.connection.on('reconnect', () => {
+  console.log('Mongoose reconnected');
+});
+
+/** ********************mongo events************************* */
+
+export default dbConnection
