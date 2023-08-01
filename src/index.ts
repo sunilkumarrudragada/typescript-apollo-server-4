@@ -29,7 +29,7 @@ const httpServer = http.createServer(app);
 const server = new ApolloServer<MyContext>({
   typeDefs: schema,
   resolvers,
-  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+  plugins: [ ApolloServerPluginDrainHttpServer({ httpServer }) ],
 });
 
 // Ensure we wait for our server to start
@@ -52,4 +52,4 @@ app.use(
 
 // Modified server startup
 await new Promise<void>((resolve) => httpServer.listen({ port: 4000 }, resolve));
-console.log(`🚀 Server ready at http://localhost:4000/`);
+console.log('🚀 Server ready at http://localhost:4000/');

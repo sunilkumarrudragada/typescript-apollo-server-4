@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 import { DocumentNode } from 'graphql';
-import user from './user.js'
+import user from './user.js';
 
 const linkSchema: DocumentNode = gql`
   scalar Date
@@ -22,5 +22,5 @@ const linkSchema: DocumentNode = gql`
 
 export default [
   linkSchema,
-  user
+  user,
 ];

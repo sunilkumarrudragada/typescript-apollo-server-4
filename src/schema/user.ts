@@ -13,4 +13,4 @@ export default gql`
     refreshToken: String!
     refreshTokenExpiresAt: Date!
   }
-`
+`;

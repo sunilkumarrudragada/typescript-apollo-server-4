@@ -6,13 +6,13 @@ import User from './user.js';
 class Database {
   private dbUri:string;
   private connectionOptions: ConnectOptions;
-  private _models: DatabaseModels
+  private _models: DatabaseModels;
 
   constructor(dbUri:string, connectionOptions:ConnectOptions) {
     this.dbUri= dbUri;
     this.connectionOptions = connectionOptions;
     this._models = {
-      User
+      User,
     };
   }
 
@@ -75,4 +75,4 @@ mongoose.connection.on('reconnect', () => {
 
 /** ********************mongo events************************* */
 
-export default dbConnection
+export default dbConnection;

@@ -1,9 +1,6 @@
-import { IUser, EProvider } from '../types/models/user.js';
-import { Schema, model, Document } from 'mongoose';
+import { IUser, EProvider, IUserDocument } from '../types/models/user.js';
+import { Schema, model } from 'mongoose';
 import bcrypt from 'bcrypt';
-
-// Define the UserDocument interface for the Mongoose document
-interface UserDocument extends IUser, Document {}
 
 // Create the Mongoose schema for User
 const userSchema = new Schema<IUser>({
@@ -13,12 +10,12 @@ const userSchema = new Schema<IUser>({
   // current provider gives the info about the latest provider he uses for login example: google or password
   currentProvider: { type: String, enum: Object.values(EProvider), required: true },
   // currently accepted providers password and google
-  providers: { type: [String], enum: Object.values(EProvider), required: true },
+  providers: { type: [ String ], enum: Object.values(EProvider), required: true },
 }, { timestamps: true });
 
 
 // Hash the password before saving it
-userSchema.pre<UserDocument>('save', async function (next) {
+userSchema.pre<IUserDocument>('save', async function (next) {
   if (!this.isModified('password')) return next();
 
   try {
@@ -41,6 +38,6 @@ userSchema.methods.checkPassword = async function (candidatePassword: string): P
 };
 
 // Create the Mongoose model for User using the schema
-const User = model<UserDocument>('User', userSchema);
+const User = model<IUserDocument>('User', userSchema);
 
 export default User;

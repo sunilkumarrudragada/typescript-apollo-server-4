@@ -1,6 +1,8 @@
+import { Document } from 'mongoose';
+
 export enum EProvider {
-  Google = "google",
-  Password = "password",
+  Google = 'google',
+  Password = 'password',
 }
 
 export interface IUser {
@@ -10,3 +12,6 @@ export interface IUser {
   currentProvider: EProvider; // Use the Provider enum type
   providers: EProvider[]; // Use the Provider enum type as array elements
 }
+
+// Define the IUserDocument interface for the Mongoose document
+export interface IUserDocument extends IUser, Document {}
