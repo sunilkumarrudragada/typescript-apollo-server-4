@@ -1,15 +1,24 @@
 import mongoose,  { ConnectOptions } from 'mongoose';
-import config from '../config/index.js'
+import { DatabaseModels } from '../types/models/index.js';
+import config from '../config/index.js';
+import User from './user.js';
 
 class Database {
   private dbUri:string;
   private connectionOptions: ConnectOptions;
+  private _models: DatabaseModels
 
-  constructor() {
-    this.dbUri= config.database.dbUri;
-    this.connectionOptions = {
-      dbName: config.database.dbName,
+  constructor(dbUri:string, connectionOptions:ConnectOptions) {
+    this.dbUri= dbUri;
+    this.connectionOptions = connectionOptions;
+    this._models = {
+      User
     };
+  }
+
+  get models(): DatabaseModels {
+    // Here, we return an object containing references to all the models.
+    return this._models;
   }
 
   public async connect(): Promise<void> {
@@ -29,9 +38,15 @@ class Database {
       console.error('Failed to disconnect from MongoDB:', error);
     }
   }
+
 }
 
-const dbConnection = new Database();
+const dbConnection = new Database(
+  config.database.dbUri,
+  {
+    dbName: config.database.dbName,
+  }
+);
 
 /** ********************mongo events************************* */
 mongoose.connection.on('connected', () => {

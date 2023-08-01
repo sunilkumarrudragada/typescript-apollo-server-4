@@ -8,47 +8,10 @@ import http from 'http';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import dbConnection from './models/index.js';
+import schema from './schema/index.js';
+import resolvers from './resolvers/index.js';
 
 await dbConnection.connect();
-
-// import { typeDefs, resolvers } from './schema';
-
-// A schema is a collection of type definitions (hence "typeDefs")
-// that together define the "shape" of queries that are executed against
-// your data.
-const typeDefs = `#graphql
-  # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
-
-  # This "Book" type defines the queryable fields for every book in our data source.
-  type Book {
-    title: String
-    author: String
-  }
-
-  # The "Query" type is special: it lists all of the available queries that
-  # clients can execute, along with the return type for each. In this
-  # case, the "books" query returns an array of zero or more Books (defined above).
-  type Query {
-    books: [Book]
-  }
-`;
-
-const books = [
-  {
-    title: 'The Awakening',
-    author: 'Kate Chopin',
-  },
-  {
-    title: 'City of Glass',
-    author: 'Paul Auster',
-  },
-];
-
-const resolvers = {
-  Query: {
-    books: () => books,
-  },
-};
 
 interface MyContext {
   token?: string;
@@ -64,7 +27,7 @@ const httpServer = http.createServer(app);
 // Same ApolloServer initialization as before, plus the drain plugin
 // for our httpServer.
 const server = new ApolloServer<MyContext>({
-  typeDefs,
+  typeDefs: schema,
   resolvers,
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
@@ -81,7 +44,9 @@ app.use(
   // expressMiddleware accepts the same arguments:
   // an Apollo Server instance and optional configuration options
   expressMiddleware(server, {
-    context: async ({ req }) => ({ token: req.headers.token }),
+    context: async () => ({
+      models: dbConnection.models,
+    }),
   }),
 );
 
