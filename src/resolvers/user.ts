@@ -43,9 +43,9 @@ export default {
         });
       }
 
-      const checkPassword: boolean = await userRec.checkPassword(password);
+      const isValidPassword: boolean = await userRec.checkPassword(password);
 
-      if (!checkPassword) {
+      if (!isValidPassword) {
         // handle merging of accounts for google and password providers
         throw new GraphQLError(config.errors.authError.message, {
           extensions: {
