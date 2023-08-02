@@ -14,4 +14,12 @@ export interface IUser {
 }
 
 // Define the IUserDocument interface for the Mongoose document
-export interface IUserDocument extends IUser, Document {}
+export interface IUserDocument extends IUser, Document {
+  checkPassword(candidatePassword: string): Promise<boolean>;
+  createToken(): Promise<{
+    accessToken: string;
+    accessTokenExpiresAt: Date;
+    refreshToken: string;
+    refreshTokenExpiresAt: Date;
+  }>;
+}

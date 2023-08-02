@@ -7,7 +7,6 @@ export default gql`
   }
 
   type TokenType {
-    success: Boolean!
     accessToken: String!
     accessTokenExpiresAt: Date!
     refreshToken: String!

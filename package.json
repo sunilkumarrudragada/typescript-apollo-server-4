@@ -25,6 +25,7 @@
     "graphql-iso-date": "^3.6.1",
     "graphql-tag": "^2.12.6",
     "graphql-type-json": "^0.3.2",
+    "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.2.2"
   },
   "devDependencies": {

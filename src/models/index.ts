@@ -2,6 +2,7 @@ import mongoose,  { ConnectOptions } from 'mongoose';
 import { DatabaseModels } from '../types/models/index.js';
 import config from '../config/index.js';
 import User from './user.js';
+import Token from './token.js';
 
 class Database {
   private dbUri:string;
@@ -13,6 +14,7 @@ class Database {
     this.connectionOptions = connectionOptions;
     this._models = {
       User,
+      Token,
     };
   }
 

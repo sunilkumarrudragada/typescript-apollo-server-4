@@ -9,4 +9,14 @@ export default {
     message: 'user already exists with this email',
     status: 400,
   },
+  userNotFoundError: {
+    code: 11112,
+    message: 'user not found',
+    status: 404,
+  },
+  authError: {
+    code: 11113,
+    message: 'user entered wrong email or password',
+    status: 401,
+  },
 };
