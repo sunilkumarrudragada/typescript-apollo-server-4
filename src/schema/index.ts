@@ -7,6 +7,8 @@ const linkSchema: DocumentNode = gql`
   scalar JSON
   scalar Long
 
+  directive @basicAuth on QUERY | MUTATION | FIELD_DEFINITION
+
   type Query {
     _: Boolean
   }

@@ -7,9 +7,15 @@ import express from 'express';
 import http from 'http';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import { makeExecutableSchema } from '@graphql-tools/schema';
+
 import dbConnection from './models/index.js';
+import basicAuthDirective from './directives/basicAuth.js';
 import schema from './schema/index.js';
 import resolvers from './resolvers/index.js';
+
+const baDirective = basicAuthDirective('basicAuth');
+
 
 await dbConnection.connect();
 
@@ -24,11 +30,17 @@ const app = express();
 // enabling our servers to shut down gracefully.
 const httpServer = http.createServer(app);
 
+let execSchema = makeExecutableSchema({
+  typeDefs: [ ...schema ],
+  resolvers: [ ...resolvers ],
+});
+
+execSchema = baDirective(execSchema);
+
 // Same ApolloServer initialization as before, plus the drain plugin
 // for our httpServer.
 const server = new ApolloServer<MyContext>({
-  typeDefs: schema,
-  resolvers,
+  schema: execSchema,
   plugins: [ ApolloServerPluginDrainHttpServer({ httpServer }) ],
 });
 

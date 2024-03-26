@@ -5,6 +5,9 @@ import { GraphQLError } from 'graphql';
 import config from '../config/index.js';
 
 export default {
+  Query: {
+    sampleQuery: (): string => 'Hello World!',
+  },
   Mutation: {
     signUp: async(_, { username, email, password }: ISignUpArgs, { models }: IContext): Promise<ITokenResp> => {
       const oldUserRec: IUserDocument | null = await models.User.findOne({ email });
